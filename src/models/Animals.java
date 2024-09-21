@@ -2,8 +2,9 @@ package models;
 
 import java.sql.Date;
 
-public abstract class Animals {
-    private int id = 0;
+public class Animals {
+    protected static int counter = 0;
+    protected int id = 0;
     private String name;
     private Type type;
     private Date birthdate;
@@ -12,7 +13,7 @@ public abstract class Animals {
     public Animals(String name, Character type, String birthdate) {
         this.name = name;
         this.birthdate = Date.valueOf(birthdate);
-        this.id++;
+        this.id = ++counter;
     }
 
     public void addCommands(String commands) {
@@ -20,12 +21,21 @@ public abstract class Animals {
         else this.commands = this.commands + ", " + commands;
     }
 
-    public void dropAllCommands(){
+    public void dropAllCommands() {
         this.commands = "";
+    }
+
+    public int getCounter() {
+        return counter;
     }
 
     @Override
     public String toString() {
-        return name + " " + type + " рожден: " + birthdate + " умеет выполнять команды: " + commands;
+        return "id=" + id + "\tКличка: " + name + "\t(" + type + ")\tрожден: " + birthdate +
+                "\tумеет выполнять команды: " + commands;
+    }
+
+    public long getBirthdate() {
+        return this.birthdate.getTime();
     }
 }
