@@ -2,8 +2,9 @@ package controller;
 
 import models.Animals;
 
-public interface RegistryService {
+public interface RegistryFunctional {
     void addAnimal(Animals a);
-    String getQuantity();
+    void getQuantity();
     void printSortedRegistry();
+    void start();
 }

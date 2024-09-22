@@ -6,11 +6,11 @@ public class Animals {
     protected static int counter = 0;
     protected int id = 0;
     private String name;
-    private Type type;
+    protected String type;
     private Date birthdate;
     private String commands = "";
 
-    public Animals(String name, Character type, String birthdate) {
+    public Animals(String name, String birthdate) {
         this.name = name;
         this.birthdate = Date.valueOf(birthdate);
         this.id = ++counter;
@@ -25,17 +25,26 @@ public class Animals {
         this.commands = "";
     }
 
-    public int getCounter() {
-        return counter;
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public String toString() {
-        return "id=" + id + "\tКличка: " + name + "\t(" + type + ")\tрожден: " + birthdate +
-                "\tумеет выполнять команды: " + commands;
+    public String getCommands() {
+        return commands;
+    }
+
+    public int getCounter() {
+        return counter;
     }
 
     public long getBirthdate() {
         return this.birthdate.getTime();
     }
+
+    @Override
+    public String toString() {
+        return "id=" + id + "\tКличка: " + name + "\t(" + type + ")\tрожден: " + birthdate;
+        // "\t умеет выполнять команды: " + commands;
+    }
+
 }
