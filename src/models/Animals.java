@@ -11,7 +11,7 @@ public class Animals {
     private String commands = "";
 
     public Animals(String name, String birthdate) {
-        this.name = name;
+        this.name = capitalize(name);
         this.birthdate = Date.valueOf(birthdate);
         this.id = ++counter;
     }
@@ -19,10 +19,6 @@ public class Animals {
     public void addCommands(String commands) {
         if (this.commands.isEmpty()) this.commands = commands;
         else this.commands = this.commands + ", " + commands;
-    }
-
-    public void dropAllCommands() {
-        this.commands = "";
     }
 
     public String getName() {
@@ -41,10 +37,20 @@ public class Animals {
         return this.birthdate.getTime();
     }
 
-    @Override
-    public String toString() {
-        return "id=" + id + "\tКличка: " + name + "\t(" + type + ")\tрожден: " + birthdate;
-        // "\t умеет выполнять команды: " + commands;
+    private String capitalize(String inputStr) {
+        String[] mass = inputStr.split(" ");
+        StringBuilder result = new StringBuilder();
+        for (String word : mass) {
+            char firstChar = word.charAt(0);
+            char bigFirstChar = Character.toUpperCase(firstChar);
+            result.append(bigFirstChar).append(word.substring(1).toLowerCase()).append(" ");
+        }
+        return result.toString().strip();
     }
 
+    @Override
+    public String toString() {
+        return "{\"id\": \"" + id + "\", \"name\": \"" + name + "\", \"type\": \"" + type + "\", \"birthdate\": \""
+                + birthdate + "\", \"commands\": \"" + commands + "\"}";
+    }
 }

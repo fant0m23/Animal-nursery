@@ -1,0 +1,88 @@
+Киселев Андрей Иванович, 23.09.2024, группа 6254
+
+1. Использование команды cat в Linux
+ff@VirtualUbuntu:~/Документы$ cat > Pets
+Собаки
+Кошки
+Хомяки
+ff@VirtualUbuntu:~/Документы$ cat > PackAnimals
+Лошади
+Верблюды
+Ослы
+ff@VirtualUbuntu:~/Документы$ cat Pets PackAnimals > all
+ff@VirtualUbuntu:~/Документы$ cat all
+Собаки
+Кошки
+Хомяки
+Лошади
+Верблюды
+Ослы
+ff@VirtualUbuntu:~/Документы$ mv all HumanFriends
+ff@VirtualUbuntu:~/Документы$ ls
+HumanFriends  PackAnimals  Pets
+
+2. Работа с директориями в Linux
+ff@VirtualUbuntu:~/Документы$ mkdir newdir
+ff@VirtualUbuntu:~/Документы$ mv HumanFriends ./newdir/
+
+3. Работа с MySQL в Linux
+root@VirtualUbuntu:/# cd /deb-packages/
+
+root@VirtualUbuntu:/deb-packages# wget https://dev.mysql.com/get/mysql-apt-config_0.8.32-1_all.deb
+
+root@VirtualUbuntu:/deb-packages# dpkg -i mysql-apt-config_0.8.32-1_all.deb
+
+root@VirtualUbuntu:/deb-packages# cat /etc/apt/sources.list.d/mysql.list
+### THIS FILE IS AUTOMATICALLY CONFIGURED ###
+# You may comment out entries below, but any other modifications may be lost.
+# Use command 'dpkg-reconfigure mysql-apt-config' as root for modifications.
+deb [signed-by=/usr/share/keyrings/mysql-apt-config.gpg] http://repo.mysql.com/apt/ubuntu/ noble mysql-apt-config
+deb [signed-by=/usr/share/keyrings/mysql-apt-config.gpg] http://repo.mysql.com/apt/ubuntu/ noble mysql-8.4-lts
+deb [signed-by=/usr/share/keyrings/mysql-apt-config.gpg] http://repo.mysql.com/apt/ubuntu/ noble mysql-tools
+deb-src [signed-by=/usr/share/keyrings/mysql-apt-config.gpg] http://repo.mysql.com/apt/ubuntu/ noble mysql-8.4-lts
+
+root@VirtualUbuntu:/deb-packages# apt update
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu noble InRelease
+Пол:2 http://ru.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Пол:3 http://repo.mysql.com/apt/ubuntu noble InRelease [22,7 kB]
+
+root@VirtualUbuntu:/deb-packages# apt install mysql-server
+Чтение списков пакетов… Готово
+Построение дерева зависимостей… Готово
+Чтение информации о состоянии… Готово
+Будут установлены следующие дополнительные пакеты:
+  libmecab2 mecab-ipadic mecab-ipadic-utf8 mecab-utils mysql-client mysql-common mysql-community-client mysql-community-client-core
+  mysql-community-client-plugins mysql-community-server mysql-community-server-core
+Следующие НОВЫЕ пакеты будут установлены:
+  libmecab2 mecab-ipadic mecab-ipadic-utf8 mecab-utils mysql-client mysql-common mysql-community-client mysql-community-client-core
+  mysql-community-client-plugins mysql-community-server mysql-community-server-core mysql-server
+Обновлено 0 пакетов, установлено 12 новых пакетов, для удаления отмечено 1 пакетов, и 13 пакетов не обновлено.
+Необходимо скачать 36,6 MB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 201 MB.
+Хотите продолжить? [Д/н] y
+Пол:1 http://ru.archive.ubuntu.com/ubuntu noble/main amd64 libmecab2 amd64 0.996-14ubuntu4 [201 kB]
+Пол:2 http://ru.archive.ubuntu.com/ubuntu noble/main amd64 mecab-utils amd64 0.996-14ubuntu4 [4 804 B]
+Пол:3 http://ru.archive.ubuntu.com/ubuntu noble/main amd64 mecab-ipadic all 2.7.0-20070801+main-3 [6 718 kB]
+Пол:4 http://repo.mysql.com/apt/ubuntu noble/mysql-8.4-lts amd64 mysql-common amd64 8.4.2-1ubuntu24.04 [67,3 kB]
+Пол:5 http://repo.mysql.com/apt/ubuntu noble/mysql-8.4-lts amd64 mysql-community-client-plugins amd64 8.4.2-1ubuntu24.04 [1 468 kB]
+Пол:6 http://ru.archive.ubuntu.com/ubuntu noble/main amd64 mecab-ipadic-utf8 all 2.7.0-20070801+main-3 [4 384 B]
+Пол:7 http://repo.mysql.com/apt/ubuntu noble/mysql-8.4-lts amd64 mysql-community-client-core amd64 8.4.2-1ubuntu24.04 [1 824 kB]
+Пол:8 http://repo.mysql.com/apt/ubuntu noble/mysql-8.4-lts amd64 mysql-community-client amd64 8.4.2-1ubuntu24.04 [2 108 kB]
+Пол:9 http://repo.mysql.com/apt/ubuntu noble/mysql-8.4-lts amd64 mysql-client amd64 8.4.2-1ubuntu24.04 [65,9 kB]
+Пол:10 http://repo.mysql.com/apt/ubuntu noble/mysql-8.4-lts amd64 mysql-community-server-core amd64 8.4.2-1ubuntu24.04 [24,0 MB]
+Пол:11 http://repo.mysql.com/apt/ubuntu noble/mysql-8.4-lts amd64 mysql-community-server amd64 8.4.2-1ubuntu24.04 [75,5 kB]
+Пол:12 http://repo.mysql.com/apt/ubuntu noble/mysql-8.4-lts amd64 mysql-server amd64 8.4.2-1ubuntu24.04 [65,9 kB]
+Получено 36,6 MB за 4с (10,3 MB/s)
+...
+root@VirtualUbuntu:/deb-packages# mysql -V
+mysql  Ver 8.4.2 for Linux on x86_64 (MySQL Community Server - GPL)
+
+4. Управление deb-пакетами
+root@VirtualUbuntu:/deb-packages# wget http://archive.ubuntu.com/ubuntu/pool/main/n/nginx/nginx-common_1.24.0-2ubuntu7_all.deb
+root@VirtualUbuntu:/deb-packages# wget http://archive.ubuntu.com/ubuntu/pool/main/n/nginx/nginx_1.24.0-2ubuntu7_amd64.deb
+
+root@VirtualUbuntu:/deb-packages# dpkg -i nginx_1.24.0-2ubuntu7_amd64.deb nginx-common_1.24.0-2ubuntu7_all.deb
+root@VirtualUbuntu:/deb-packages# nginx -v
+nginx version: nginx/1.24.0 (Ubuntu)
+root@VirtualUbuntu:/deb-packages# dpkg -r nginx nginx-common
+

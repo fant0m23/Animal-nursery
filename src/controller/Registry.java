@@ -8,9 +8,9 @@ import static view.Text.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Registry implements RegistryFunctional {
+public class Registry {
     private final List<Animals> registry = new ArrayList<>();
-    private RegistryUI userInput = new RegistryUI();
+    private final RegistryUI userInput = new RegistryUI();
 
     public void start() {
         userInput.textOnConsole(HELLO);
@@ -21,26 +21,27 @@ public class Registry implements RegistryFunctional {
             switch (userChoice) {
                 case '1':
                     userInput.textOnConsole(ADDNAME);
-                    String name = userInput.getUserStr2();
+                    String name = userInput.getUserStr();
                     char type = userInput.getType();
                     userInput.textOnConsole(ADDBDAY);
-                    String bday = userInput.getUserStr2();
-                    addAnimal(getNewAnimal(name, type, bday));
+                    String bday = userInput.getDateSQL();
+                    this.registry.add(createAnimal(name, type, bday));
                     break;
                 case '2':
                     printSortedRegistry();
                     break;
                 case '3':
-                    userInput.textOnConsole(ADDNAME);
-                    String name2 = userInput.getUserStr2();
-                    printCommands(name2);
+                    if (this.registry.isEmpty()) System.out.println("Реестр пуст");
+                    else printCommands(getCorrectName());
                     break;
                 case '4':
-                    userInput.textOnConsole(ADDNAME);
-                    String name3 = userInput.getUserStr2();
-                    userInput.textOnConsole(ADDCOMM);
-                    String skill = userInput.getUserStr();
-                    addSkill(name3, skill);
+                    if (this.registry.isEmpty()) System.out.println("Реестр пуст");
+                    else {
+                        String name3 = getCorrectName();
+                        userInput.textOnConsole(ADDCOMM);
+                        String skill = userInput.getUserStr();
+                        addSkill(name3, skill);
+                    }
                     break;
                 case '5':
                     getQuantity();
@@ -54,7 +55,7 @@ public class Registry implements RegistryFunctional {
         userInput.closeScanner();
     }
 
-    public Animals getNewAnimal(String name, char type, String date) {
+    private Animals createAnimal(String name, char type, String date) {
         return switch (type) {
             case 'к' -> new Cat(name, date);
             case 'с' -> new Dog(name, date);
@@ -66,34 +67,40 @@ public class Registry implements RegistryFunctional {
         };
     }
 
-    public void printCommands(String name2) {
+    private String getCorrectName() {
+        List<String> list = new ArrayList<>();
         for (Animals a : registry) {
-            if (a.getName().equalsIgnoreCase(name2)) {
-                if (a.getCommands().isEmpty()) System.out.println(name2 + "пока что ничего не умеет :(");
+            list.add(a.getName().toLowerCase());
+        }
+        while (true) {
+            userInput.textOnConsole(ADDNAME);
+            String name = userInput.getUserStr().toLowerCase();
+            if (!list.contains(name)) System.out.println("Животного по кличке " + name + " в реестре нет.");
+            else return name;
+        }
+    }
+
+    private void printCommands(String name) {
+        for (Animals a : registry) {
+            if (a.getName().equalsIgnoreCase(name)) {
+                if (a.getCommands().isEmpty()) System.out.println(name + " пока что ничего не умеет :(");
                 else System.out.println(a.getCommands());
             }
         }
     }
 
-    public void addSkill(String name3, String skill) {
+    private void addSkill(String name3, String skill) {
         for (Animals a : registry) {
             if (a.getName().equalsIgnoreCase(name3)) a.addCommands(skill);
         }
     }
 
-    @Override
-    public void addAnimal(Animals a) {
-        this.registry.add(a);
-    }
-
-    @Override
-    public void getQuantity() {
+    private void getQuantity() {
         if (this.registry.isEmpty()) System.out.println("В реестре животные ещё не регистрировались");
         else System.out.println("Всего в реестре было зарегистрировано животных: " + registry.get(0).getCounter());
     }
 
-    @Override
-    public void printSortedRegistry() {
+    private void printSortedRegistry() {
         if (this.registry.isEmpty()) System.out.println("Реестр пуст");
         else {
             List<Animals> registrySorted = new ArrayList<>(this.registry);

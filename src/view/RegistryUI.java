@@ -1,30 +1,31 @@
 package view;
 
+import java.sql.Date;
 import java.util.*;
 
 import static view.Text.*;
 
 public class RegistryUI implements InputUI {
-    private Scanner scan = new Scanner(System.in);
+    private final Scanner scan = new Scanner(System.in);
 
     public String getUserStr() {
-        return scan.nextLine();
-    }
-    public String getUserStr2() {
-        scan.nextLine();
-        return scan.nextLine();
+        String res = scan.nextLine();  // пришлось вводить переменную и проверять её на "пустую строку" из-за особенности
+        if (res.isEmpty()) {           // работы Scanner.nextLine() при использовании после next(), nextInt() и т.д.
+            return scan.nextLine();
+        } else return res;
     }
 
+    @Override
     public void textOnConsole(Text key) {
         Map<Text, String> textMap = Map.of(
-                HELLO, "### Добро пожаловать в программу \"Реестр домашних животных\"! ###\n",
+                HELLO, "\n------------ Добро пожаловать в программу \"Реестр домашних животных\"! ------------\n",
                 ADDTYPE, "Введите первый символ соответствующий типу добавляемого животного\n(например," +
                         " для лошади нужно ввести символ 'л', для хомяка - 'х') >>> ",
                 ADDNAME, "\nВведите кличку животного >>> ",
                 ADDBDAY, "\nВведите дату рождения животного в формате ГГГГ-ММ-ДД >>> ",
                 ADDCOMM, "\nВведите новую команду изученную животным >>> ",
                 COMMANDS, "Введите кличку животного, чтобы узнать какие команды оно умеет выполнять >>> ",
-                ACTION, "Нажмите клавишу '1', чтобы добавить новое животное в реестр" +
+                ACTION, "\nНажмите клавишу '1', чтобы добавить новое животное в реестр" +
                         "\nНажмите клавишу '2', чтобы вывести список животных, отсортированный по дате рождения" +
                         "\nНажмите клавишу '3', чтобы узнать какие команды умеют выполнять животные из реестра" +
                         "\nНажмите клавишу '4', чтобы добавить животному новую изученную команду" +
@@ -58,5 +59,22 @@ public class RegistryUI implements InputUI {
             res = scan.next().charAt(0);
         }
         return res;
+    }
+
+    public String getDateSQL() {
+        while (true) {
+            try {
+                String res = scan.nextLine();
+                if (res.isEmpty()) {
+                    res = scan.nextLine();
+                    Date.valueOf(res);
+                } else Date.valueOf(res);
+                // приходится прогонять через костыли if-else из-за особенности Scanner.nextLine()
+                // если забить на дублирование запроса, то вместо блока if-else можно оставить: Date.valueOf(res);
+                return res;
+            } catch (Exception e) {
+                System.out.println("Введенная дата не соответствует формату ГГГГ-ММ-ДД. Попробуйте ещё раз >>> ");
+            }
+        }
     }
 }
